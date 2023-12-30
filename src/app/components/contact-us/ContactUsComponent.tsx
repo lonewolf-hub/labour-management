@@ -1,41 +1,45 @@
+// ContactUsComponent.tsx
 import React from 'react';
+import ContactForm from './ContactForm';
 
 const ContactUsComponent: React.FC = () => {
   return (
-    <div className="bg-secondary-color text-primary-color min-h-screen p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="bg-secondary-color text-primary-color min-h-screen">
+      <div className="flex flex-col">
 
         {/* Banner Section */}
-        <div className="relative mb-8">
+        <div className=" mb-8">
           <img
-            src="/path/to/contact-us-image.jpg"
+            src="/assets/icon/contactus.png"
             alt="Contact Us"
-            className="w-full h-auto"
+            className="w-full"
+            style={{ objectFit: 'cover', height: '300px' }}
           />
-          <div className="absolute inset-0 flex items-center justify-center text-center text-white">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">Contact Us</h1>
-              <p>Get in touch with us</p>
-            </div>
-          </div>
         </div>
-
-        {/* Contact Form Section */}
-        <div className="max-w-md mx-auto bg-white p-8 rounded-md shadow-md">
+        <div className='flex mx-auto gap-10'>
+        <div className="flex flex-col mx-auto bg-white p-8 rounded-md shadow-md">
           <h2 className="text-2xl font-bold mb-4">Send us a Message</h2>
-          {/* Add your contact form here */}
-          {/* Example: <ContactForm /> */}
+          <ContactForm />
         </div>
+        <div className="flex flex-col">
+        <img
+            src="/assets/icon/contactform.jpg"
+            alt="Contact Us"
+            className="h-[510px] rounded-lg"
+          />
+        </div>
+        </div>
+       
 
         {/* Additional Sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          <div className="p-4 border border-primary-color rounded-md">
-            <h2 className="text-2xl font-bold mb-2">Additional Section 5</h2>
-            <p>Lorem ipsum dolor sit amet.</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-8 mx-40 text-black my-6">
+          <div className="p-4 border border-white rounded-md">
+            <h2 className="text-2xl font-bold mb-2">Explore Job Opportunities</h2>
+            <p>Discover exciting job opportunities tailored to your skills and interests.</p>
           </div>
-          <div className="p-4 border border-primary-color rounded-md">
-            <h2 className="text-2xl font-bold mb-2">Additional Section 6</h2>
-            <p>Lorem ipsum dolor sit amet.</p>
+          <div className="p-4 border border-white rounded-md">
+            <h2 className="text-2xl font-bold mb-2">Labor Management Services</h2>
+            <p>Our labor management services provide efficient workforce solutions for businesses.</p>
           </div>
         </div>
 
@@ -45,4 +49,3 @@ const ContactUsComponent: React.FC = () => {
 };
 
 export default ContactUsComponent;
-

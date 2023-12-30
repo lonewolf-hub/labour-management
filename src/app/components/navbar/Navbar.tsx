@@ -31,7 +31,7 @@ const Navbar: React.FC<NavbarProps> = ({ hideMobileMenu = false }) => {
           </div>
           <div className='xl:flex hidden text-small gap-6 pr-5'>
             {navbarLinks[0].links.map((link) => (
-              <li key={link.title} className='text-white list-none'>
+              <li key={link.title} className='text-black list-none'>
                 <Link href={link.url}>
                   <div className='flex'>
                     <Image
@@ -40,7 +40,7 @@ const Navbar: React.FC<NavbarProps> = ({ hideMobileMenu = false }) => {
                       height={22}
                       alt='icon'
                     />
-                    <span className={`${montserrat.variable} font-mont ml-2 font-normal text-bse`}>{link.title}</span>
+                    <span className={`${montserrat.variable} font-mont ml-2 font-semibold`}>{link.title}</span>
                   </div>
                 </Link>
               </li>

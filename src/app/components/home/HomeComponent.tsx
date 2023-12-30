@@ -21,7 +21,7 @@ const HomeComponent: React.FC = () => {
         </div>
 
         {/* Features Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-black">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8 text-black mx-10">
           <div className="p-4 border border-black rounded-md shadow-md">
             <h2 className="text-xl font-bold mb-2">Job Search</h2>
             <p>Find your dream job with our advanced job search features.</p>
@@ -42,11 +42,11 @@ const HomeComponent: React.FC = () => {
         </div>
 
         {/* Job Search Form and Button */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 mx-10">
           {/* Left Section with Job Search Image */}
           <div className="p-4 border border-black rounded-md shadow-md">
             <img
-              src="/assets/icon/job-search-image.png"
+              src="/assets/icon/jobsearch.jpg"
               alt="Job Search"
               className="w-full h-auto rounded-md"
             />
@@ -73,7 +73,7 @@ const HomeComponent: React.FC = () => {
         </div>
 
         {/* Career Resources Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 text-black">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 text-black  mx-10">
           {/* Career Resources Section 1 */}
           <div className="p-4 border border-primary-color rounded-md shadow-md">
             <h2 className="text-2xl font-bold mb-2">Career Development</h2>
@@ -87,7 +87,7 @@ const HomeComponent: React.FC = () => {
         </div>
 
         {/* Testimonials Section */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 mx-10">
           <h2 className="text-3xl font-bold mb-4 text-black">Success Stories</h2>
 
           {/* Testimonial Slider */}
@@ -95,9 +95,9 @@ const HomeComponent: React.FC = () => {
             {/* Testimonial Card 1 */}
             <div className=" p-4 mx-2 rounded-md shadow-md w-1/2">
               <img
-                src="/assets/icon/success-story1.jpg"
+                src="/assets/icon/customer1.jpg"
                 alt="Success Story 1"
-                className="mx-auto mb-4 w-[500px]"
+                className="mx-auto mb-4 "
               />
               <p className="text-gray-800">"I found my dream job through this platform! The resources and support are amazing."</p>
             </div>
@@ -105,7 +105,7 @@ const HomeComponent: React.FC = () => {
             {/* Testimonial Card 2 */}
             <div className=" p-4 mx-2 rounded-md shadow-md w-1/2">
               <img
-                src="/assets/icon/success-story2.jpg"
+                src="/assets/icon/customer2.jpg"
                 alt="Success Story 2"
                 className=" mx-auto mb-4 "
               />
