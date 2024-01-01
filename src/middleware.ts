@@ -2,7 +2,7 @@
 // middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import verifyToken from '@/services/verifyToken'; // Adjust the path accordingly
+import verifyToken from './services/verifyToken'; // Adjust the path accordingly
 
 export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
