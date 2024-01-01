@@ -1,9 +1,10 @@
 // middleware.ts
+// middleware.ts
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import jwt from 'jsonwebtoken';
+import verifyToken from '@/services/verifyToken'; // Adjust the path accordingly
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname;
     const isPublicPath = ['/login', '/signup', '/'].includes(path);
     const token = request.cookies.get('token')?.value || '';
@@ -19,7 +20,7 @@ export function middleware(request: NextRequest) {
     }
 
     // Check if the user is an admin
-    const isAdmin = checkAdminRole(token);
+    const isAdmin = await verifyToken(token);
 
     if (!isAdmin && isAdminPath(path)) {
         // Redirect non-admin users from admin paths
@@ -27,15 +28,6 @@ export function middleware(request: NextRequest) {
     }
 
     return null; // Return null if no redirection is needed
-}
-
-function checkAdminRole(token: string): boolean {
-    try {
-        const decoded = jwt.verify(token, process.env.TOKEN_SECRET!) as { role: string };
-        return decoded.role === 'admin';
-    } catch (error) {
-        return false;
-    }
 }
 
 function isAdminPath(path: string): boolean {
