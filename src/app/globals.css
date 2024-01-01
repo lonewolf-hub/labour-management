@@ -33,3 +33,21 @@
     background: #EE9B8D;
   }
   
+  
+::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background: #C1F2B0; /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C1F2B0; /* Thumb color */
+  border-radius: 5px; /* Border radius of the thumb */
+  border: 2px solid #FFB534; /* Border color of the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #FFB534; /* Thumb color on hover */
+}

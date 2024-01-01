@@ -51,6 +51,10 @@ export const config = {
         '/login',
         '/signup',
         '/verifyemail',
+        '/home',
+        '/about-us',
+        '/find-job',
+        '/contact-us',
         '/admin',
         '/manage',
     ]

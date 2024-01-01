@@ -1,6 +1,14 @@
+"use client"
+import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/navigation';
 
 const HomeComponent: React.FC = () => {
+  const router = useRouter();
+  const handleSearchClick = () => {
+    // Navigate to the "find-jobs" page
+    router.push('/find-job');
+  };
   return (
     <div className="bg-secondary-color text-primary-color min-h-screen">
       <div className="flex flex-col">
@@ -65,6 +73,7 @@ const HomeComponent: React.FC = () => {
               />
               <button
                 className="bg-primary-color text-black px-4 py-2 rounded-md hover:bg-opacity-80 focus:outline-none"
+                onClick={handleSearchClick}
               >
                 Search Jobs
               </button>

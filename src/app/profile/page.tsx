@@ -1,14 +1,29 @@
-"use client";
+"use client"
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import PopupModal from '../components/popup/PopupModal';
 import Navbar from '../components/navbar/Navbar';
+import JobForm from '../components/job-form/JobForm';
+import AddGenreForm from '../components/form/AddGenreForm';
+
+// Define the Job type if not already defined
+interface Job {
+  _id: string;
+  title: string;
+  description: string;
+  location: string;
+  type: string;
+  genre: string;
+  createdBy: string;
+  status: string;
+}
 
 interface UserData {
+  _id: string;
   username: string;
-  role: string; // Add role to UserData
+  role: string;
 }
 
 interface UserProfileProps {
@@ -20,45 +35,54 @@ interface UserProfileProps {
 const UserProfile: React.FC<UserProfileProps> = ({ params }: UserProfileProps) => {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [appliedJobs, setAppliedJobs] = useState<Job[] | null>(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  
 
   const getUserDetails = async () => {
-  try {
-    const userRes = await axios.get('/api/users/user');
-    console.log('User Response:', userRes.data);
+    try {
+      // Make a request to fetch user details
+      const userRes = await axios.get('/api/users/user');
+      let userData: UserData | null = null;
 
-    let userData: UserData | null = null;
-
-    if (userRes.data.data.role === 'admin') {
-      try {
-        const adminRes = await axios.get('/api/admin/admin');
-        console.log('Admin Response:', adminRes.data);
-
-        userData = { ...adminRes.data.data, role: 'admin' };
-      } catch (adminError: any) {
-        if (adminError.response && adminError.response.status === 403) {
-          // Handle 403 (Forbidden) for admin endpoint
-          console.log('User is not an admin');
-          userData = { ...userRes.data.data, role: 'user' };
-        } else {
-          throw adminError;
+      // Handle user and admin roles
+      if (userRes.data.data.role === 'admin') {
+        try {
+          const adminRes = await axios.get('/api/admin/admin');
+          userData = { ...adminRes.data.data, role: 'admin' };
+        } catch (adminError: any) {
+          if (adminError.response && adminError.response.status === 403) {
+            userData = { ...userRes.data.data, role: 'user' };
+          } else {
+            throw adminError;
+          }
         }
+      } else {
+        userData = { ...userRes.data.data, role: 'user' };
       }
-    } else {
-      userData = { ...userRes.data.data, role: 'user' };
+
+      setUserData(userData);
+    } catch (error: any) {
+      console.error(error.message);
+      toast.error(error.message);
     }
+  };
 
-    console.log('Final UserData:', userData);
-    setUserData(userData);
-  } catch (error: any) {
-    console.error(error.message);
-    toast.error(error.message);
-  }
-};
-
-
+  const getAppliedJobs = async () => {
+    try {
+      // Make a request to fetch applied jobs
+      const response = await axios.get('/api/users/appliedJob');
+      console.log('Applied Jobs Response:', response.data); // Log the response data
+      setAppliedJobs(response.data.data);
+    } catch (error: any) {
+      console.error('Error fetching applied jobs:', error.message);
+      toast.error('Error fetching applied jobs');
+    }
+  };
+  
   useEffect(() => {
     getUserDetails();
+    getAppliedJobs();
   }, []);
 
   const handleLogout = () => {
@@ -79,23 +103,21 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }: UserProfileProps) =
       toast.error(error.message);
     }
   };
-  
-  const [bookedAmbulances, setBookedAmbulances] = useState<Array<any>>([
-    { id: 1, ambulanceType: 'Type A', ambulanceNumber: 'A123', hospital: 'Hospital XYZ' },
-    { id: 2, ambulanceType: 'Type B', ambulanceNumber: 'B456', hospital: 'Hospital ABC' },
-    { id: 3, ambulanceType: 'Type B', ambulanceNumber: 'B456', hospital: 'Hospital ABC' },
-    { id: 4, ambulanceType: 'Type B', ambulanceNumber: 'B456', hospital: 'Hospital ABC' },
-    { id: 5, ambulanceType: 'Type B', ambulanceNumber: 'B456', hospital: 'Hospital ABC' },
-    { id: 6, ambulanceType: 'Type B', ambulanceNumber: 'B456', hospital: 'Hospital ABC' },
-    // Add more dummy data as needed
-  ]);
 
   return (
     <>
       <Navbar />
       <div className="flex flex-col items-center justify-center min-h-screen py-8 bg-secondary-color text-white rounded-md gap-10">
-     <h1 className='text-black text-4xl font-bold my-4'>Your Profile</h1>
-        <div className="flex flex-col items-center justify-center w-1/2 p-4 bg-primary-color  text-black mx-20 rounded-lg shadow-md">
+        <h1 className='text-black text-4xl font-bold my-4'>Your Profile</h1>
+        {userData?.role === 'admin' && (
+            <>
+            <h2 className="text-2xl font-bold  text-black">Add a Genre:</h2>
+            <AddGenreForm/>
+              <h2 className="text-2xl font-bold  text-black">Post a Job:</h2>
+              <JobForm adminId={userData._id} />
+            </>
+          )}
+        <div className="flex flex-col items-center justify-center w-2/3 p-8 bg-primary-color text-black mx-20 rounded-lg shadow-md">
           <h1 className="text-4xl font-bold mb-4">
             Welcome, {userData?.username || 'Guest'}
           </h1>
@@ -117,30 +139,50 @@ const UserProfile: React.FC<UserProfileProps> = ({ params }: UserProfileProps) =
             Refresh User Details
           </button>
         </div>
-
-        {/* Booked Ambulance Box */}
-        <div className="flex flex-col w-1/2 h-[306px] p-4 bg-primary-color text-black mx-20 items-center justify-center rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4">Booked Ambulances </h2>
-          {bookedAmbulances.length > 0 ? (
+         
+    
+        
+        {/* Display applied jobs section */}
+        <div className="flex flex-col items-center justify-center w-2/3 p-8 bg-primary-color text-black mx-20 rounded-lg shadow-md mt-8">
+          <h2 className="text-2xl font-bold mb-4">Jobs Applied:</h2>
+          {appliedJobs ? (
             <ul className="list-disc pl-6">
-              {bookedAmbulances.map((ambulance) => (
-                <li key={ambulance.id} className="text-lg mb-2">
-                  {`${ambulance.ambulanceType} - ${ambulance.ambulanceNumber} at ${ambulance.hospital}`}
+              {appliedJobs.map((job) => (
+                <li key={job._id}>
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold">{job.title}</h3>
+                    <p className="text-gray-700">{job.description}</p>
+                  </div>
+                  <div className="flex">
+                    <p className="mr-4">
+                      <strong>Location:</strong> {job.location}
+                    </p>
+                    <p className="mr-4">
+                      <strong>Type:</strong> {job.type}
+                    </p>
+                    <p className="mr-4">
+                      <strong>Genre:</strong> {job.genre}
+                    </p>
+                    <p className={job.status === 'active' ? 'text-green-700' : 'text-red-700'}>
+                      <strong>Status:</strong> {job.status}
+                    </p>
+                  </div>
+                  <hr className="border-gray-500 my-4" />
                 </li>
               ))}
             </ul>
           ) : (
-            <p>No ambulances booked.</p>
+            <p>No jobs applied</p>
           )}
         </div>
-      </div>
 
-      <PopupModal
-        isOpen={isLogoutModalOpen}
-        onClose={handleCloseLogoutModal}
-        onConfirm={handleConfirmLogout}
-        message="Are you sure you want to logout?"
-      />
+        <PopupModal
+          isOpen={isLogoutModalOpen}
+          onClose={handleCloseLogoutModal}
+          onConfirm={handleConfirmLogout}
+          message="Are you sure you want to logout?"
+        />
+      </div>
     </>
   );
 };

@@ -29,14 +29,14 @@ const JobSearchComponent: React.FC = () => {
             </div>
           </Link>
 
-          <Link href="/intraday-tasks">
+          <Link href="/search-jobs">
             <div style={{ padding: '16px', border: '1px solid #3490dc', borderRadius: '0.375rem', textAlign: 'center', cursor: 'pointer', transition: 'background-color 0.3s, transform 0.3s' }} className="hover:bg-gray-200 transform hover:scale-105 bg-primary-color">
               <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Intraday Tasks</h2>
               <p>Find short-term, daily tasks that match your expertise and availability.</p>
             </div>
           </Link>
 
-          <Link href="/full-time-jobs">
+          <Link href="/search-jobs">
             <div style={{ padding: '16px', border: '1px solid #3490dc', borderRadius: '0.375rem', textAlign: 'center', cursor: 'pointer', transition: 'background-color 0.3s, transform 0.3s' }} className="hover:bg-gray-200 transform hover:scale-105 bg-primary-color">
               <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Full-Time Jobs</h2>
               <p>Explore career opportunities for full-time positions in various industries.</p>
